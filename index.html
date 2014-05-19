@@ -1,0 +1,54 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Scratch It!</title>
+    <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+</head>
+<body>
+    <div style="width:438px;height:300px;background:yellow;position:relative;cursor:crosshair;">
+        <img style="z-index1;position:absolute;top:0;left:0" src="03.jpg" width="438" height="300" />
+        <canvas style="z-index:3;position:absolute;top:0;left:0;" id="myCanvas" width="438" height="300"></canvas>
+    </div>
+    <script>
+        var x;
+        var y;
+        var canvas = document.getElementById('myCanvas');
+        var context = canvas.getContext('2d');
+        var imageObj = new Image();
+
+        imageObj.onload = function () {
+            context.drawImage(imageObj, 0, 0);
+        };
+        imageObj.src = 'darth-vader.jpg';
+
+
+        $("#myCanvas").on("mousemove", function (e) {
+            if (e.which == 1) {
+                getCursorPosition(e);
+                context.save();
+                context.beginPath();
+                context.arc(x, y, 5, 0, 2 * Math.PI);
+                context.moveTo(x, y);
+                context.closePath();
+                context.clip();
+                context.clearRect(0, 0, 438, 300);
+                context.restore();
+            }
+
+        })
+        function getCursorPosition(e) {
+
+            if (e.pageX || e.pageY) {
+                x = e.pageX;
+                y = e.pageY;
+            }
+            else {
+                x = e.clientX + document.body.scrollLeft +
+                     document.documentElement.scrollLeft;
+                y = e.clientY + document.body.scrollTop +
+                     document.documentElement.scrollTop;
+            }
+        }
+    </script>
+</body>
+</html>
