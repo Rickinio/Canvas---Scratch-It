@@ -12,6 +12,7 @@
     <script>
         var x;
         var y;
+        var pressed;
         var canvas = document.getElementById('myCanvas');
         var context = canvas.getContext('2d');
         var imageObj = new Image();
@@ -22,8 +23,16 @@
         imageObj.src = 'darth-vader.jpg';
 
 
+        $("#myCanvas").on("mousedown", function (e) {
+            pressed = true;
+        });
+
+        $("#myCanvas").on("mouseup", function (e) {
+            pressed = false;
+        });
+
         $("#myCanvas").on("mousemove", function (e) {
-            if (e.which == 1) {
+            if (pressed) {
                 getCursorPosition(e);
                 context.save();
                 context.beginPath();
@@ -34,8 +43,8 @@
                 context.clearRect(0, 0, 438, 300);
                 context.restore();
             }
+        });
 
-        })
         function getCursorPosition(e) {
 
             if (e.pageX || e.pageY) {
